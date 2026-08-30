@@ -1,0 +1,8 @@
+# Dependencies (huge folder, everyone regenerates it with npm install)
+node_modules/
+
+# Secrets — never commit this
+.env
+
+# OS/editor junk
+.DS_Store

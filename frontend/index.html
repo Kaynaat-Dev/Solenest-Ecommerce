@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SoleNest | Step Into Your Style</title>
+
+  <!-- Short description for search engines / browser tabs -->
+  <meta name="description" content="SoleNest - Premium shoes for every step. Shop sneakers, running shoes, casual and sports footwear for men and women." />
+
+  <!-- Google Fonts: we'll use these in style.css. Loaded here so they're ready before CSS applies them. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Font Awesome icons (cart icon, star ratings, social icons, hamburger menu, etc.) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <!-- Our own stylesheet (we'll build this in Step 2) -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- =========================================================
+       HEADER / NAVBAR
+       Sticky top navigation with logo, menu links, and cart icon.
+  ========================================================== -->
+  <header class="header" id="header">
+    <nav class="navbar container">
+
+      <!-- Logo / Brand name -->
+      <a href="#home" class="logo">Sole<span>Nest</span></a>
+
+      <!-- Main navigation links (hidden on mobile until hamburger is clicked) -->
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#home" class="nav-link active">Home</a></li>
+        <li><a href="#shop" class="nav-link">Shop</a></li>
+        <li><a href="#categories" class="nav-link">Categories</a></li>
+        <li><a href="#about" class="nav-link">About</a></li>
+        <li><a href="#contact" class="nav-link">Contact</a></li>
+      </ul>
+
+      <!-- Right side icons: login/account + cart + mobile menu toggle -->
+      <div class="nav-icons">
+        <!-- Login button. When a user is logged in, JS will change this
+             button's text to show their name instead of "Login". -->
+        <button class="login-btn" id="loginBtn" aria-label="Login or view account">
+          <i class="fa-solid fa-user"></i>
+          <span id="loginBtnText">Login</span>
+        </button>
+
+        <button class="cart-btn" id="cartBtn" aria-label="Open cart">
+          <i class="fa-solid fa-bag-shopping"></i>
+          <span class="cart-count" id="cartCount">0</span>
+        </button>
+
+        <!-- Hamburger menu button, only visible on mobile via CSS -->
+        <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+
+    </nav>
+  </header>
+
+
+  <!-- =========================================================
+       HERO SECTION
+       Big attention-grabbing banner at the top of the homepage.
+  ========================================================== -->
+  <section class="hero" id="home">
+    <div class="hero-content container">
+      <div class="hero-text">
+        <span class="eyebrow">New Season Collection</span>
+        <h1>Step Into Your <span class="highlight">Style</span></h1>
+        <p>
+          Discover premium sneakers, running shoes, and everyday footwear
+          designed for comfort, performance, and standout style.
+          SoleNest brings you shoes that move with your life.
+        </p>
+        <div class="hero-buttons">
+          <a href="#shop" class="btn btn-primary">Shop Now</a>
+          <a href="#about" class="btn btn-outline">Learn More</a>
+        </div>
+      </div>
+
+      <div class="hero-image">
+        <!-- PLACEHOLDER: Replace this src with your own hero shoe image later -->
+        <img src="https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=800&q=80" alt="Featured SoleNest shoe" />
+      </div>
+    </div>
+  </section>
+
+
+  <!-- =========================================================
+       FEATURED PRODUCTS SECTION
+       A short highlight strip of top/best-selling products.
+  ========================================================== -->
+  <section class="featured section" id="featured">
+    <div class="container">
+      <div class="section-heading">
+        <span class="eyebrow">Handpicked For You</span>
+        <h2>Featured Products</h2>
+        <p>Our most-loved styles, chosen by SoleNest customers.</p>
+      </div>
+
+      <!-- This grid is filled with 4 featured product cards.
+           Product cards are repeated in the full Shop section below too. -->
+      <div class="product-grid" id="featuredGrid">
+        <!-- Featured product cards will be inserted here by script.js later,
+             OR you can hardcode a few directly. We'll decide in the JS step. -->
+      </div>
+    </div>
+  </section>
+
+
+  <!-- =========================================================
+       CATEGORIES SECTION
+       Visual category tiles: Sneakers, Running, Casual, Sports, Women, Men
+  ========================================================== -->
+  <section class="categories section" id="categories">
+    <div class="container">
+      <div class="section-heading">
+        <span class="eyebrow">Browse</span>
+        <h2>Shop by Category</h2>
+        <p>Find exactly the type of shoe you're looking for.</p>
+      </div>
+
+      <div class="category-grid">
+        <button class="category-card" data-category="sneakers">
+          <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400&q=80" alt="Sneakers category" />
+          <span>Sneakers</span>
+        </button>
+        <button class="category-card" data-category="running">
+          <img src="https://images.unsplash.com/photo-1460353581641-37baddab0fa2?w=400&q=80" alt="Running shoes category" />
+          <span>Running</span>
+        </button>
+        <button class="category-card" data-category="casual">
+          <img src="https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?w=400&q=80" alt="Casual shoes category" />
+          <span>Casual</span>
+        </button>
+        <button class="category-card" data-category="sports">
+          <img src="https://images.unsplash.com/photo-1518002171953-a080ee817e1f?w=400&q=80" alt="Sports shoes category" />
+          <span>Sports</span>
+        </button>
+        <button class="category-card" data-category="women">
+          <img src="https://images.unsplash.com/photo-1560769629-975ec94e6a86?w=400&q=80" alt="Women's shoes category" />
+          <span>Women</span>
+        </button>
+        <button class="category-card" data-category="men">
+          <img src="https://images.unsplash.com/photo-1549298916-b41d501d3772?w=400&q=80" alt="Men's shoes category" />
+          <span>Men</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- =========================================================
+       SHOP / ALL PRODUCTS SECTION
+       Full product catalog with filter buttons.
+  ========================================================== -->
+  <section class="shop section" id="shop">
+    <div class="container">
+      <div class="section-heading">
+        <span class="eyebrow">Full Catalog</span>
+        <h2>Our Products</h2>
+        <p>Browse our complete shoe collection.</p>
+      </div>
+
+      <!-- Filter buttons: clicking these will filter the product grid via JS later -->
+      <div class="filter-bar" id="filterBar">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="sneakers">Sneakers</button>
+        <button class="filter-btn" data-filter="running">Running</button>
+        <button class="filter-btn" data-filter="casual">Casual</button>
+        <button class="filter-btn" data-filter="sports">Sports</button>
+        <button class="filter-btn" data-filter="women">Women</button>
+        <button class="filter-btn" data-filter="men">Men</button>
+      </div>
+
+      <!-- Main product grid. Product cards will be generated here (via JS) 
+           from a JavaScript array of product data, so we don't have to 
+           hand-write 12 nearly-identical HTML blocks. -->
+      <div class="product-grid" id="shopGrid">
+        <!-- JS will populate this in the script.js step -->
+      </div>
+    </div>
+  </section>
+
+
+  <!-- =========================================================
+       WHY CHOOSE US SECTION
+  ========================================================== -->
+  <section class="why-us section" id="why-us">
+    <div class="container">
+      <div class="section-heading">
+        <span class="eyebrow">Our Promise</span>
+        <h2>Why Choose SoleNest</h2>
+      </div>
+
+      <div class="why-grid">
+        <div class="why-card">
+          <i class="fa-solid fa-truck-fast"></i>
+          <h3>Fast Delivery</h3>
+          <p>Quick and reliable shipping straight to your doorstep.</p>
+        </div>
+        <div class="why-card">
+          <i class="fa-solid fa-shield-halved"></i>
+          <h3>Quality Guaranteed</h3>
+          <p>Every pair is checked for premium comfort and durability.</p>
+        </div>
+        <div class="why-card">
+          <i class="fa-solid fa-rotate-left"></i>
+          <h3>Easy Returns</h3>
+          <p>Hassle-free 7-day return and exchange policy.</p>
+        </div>
+        <div class="why-card">
+          <i class="fa-solid fa-headset"></i>
+          <h3>24/7 Support</h3>
+          <p>Our team is always here to help with any questions.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- =========================================================
+       TESTIMONIALS / CUSTOMER REVIEWS SECTION
+  ========================================================== -->
+  <section class="testimonials section" id="testimonials">
+    <div class="container">
+      <div class="section-heading">
+        <span class="eyebrow">Testimonials</span>
+        <h2>What Our Customers Say</h2>
+      </div>
+
+      <div class="testimonial-grid">
+        <div class="testimonial-card">
+          <div class="stars">★★★★★</div>
+          <p>"Best sneakers I've ever owned. Super comfortable and the delivery was really fast!"</p>
+          <div class="testimonial-author">
+            <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Customer avatar" />
+            <div>
+              <h4>Ayesha Khan</h4>
+              <span>Verified Buyer</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="stars">★★★★★</div>
+          <p>"SoleNest has become my go-to shoe store. Great quality for the price."</p>
+          <div class="testimonial-author">
+            <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Customer avatar" />
+            <div>
+              <h4>Bilal Ahmed</h4>
+              <span>Verified Buyer</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="stars">★★★★★</div>
+          <p>"Loved the running shoes! Lightweight and perfect for daily training."</p>
+          <div class="testimonial-author">
+            <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Customer avatar" />
+            <div>
+              <h4>Sara Malik</h4>
+              <span>Verified Buyer</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- =========================================================
+       NEWSLETTER SECTION
+  ========================================================== -->
+  <section class="newsletter section">
+    <div class="container newsletter-box">
+      <div>
+        <h2>Join the SoleNest Club</h2>
+        <p>Subscribe to get exclusive offers, new arrivals, and style tips.</p>
+      </div>
+      <form class="newsletter-form" id="newsletterForm">
+        <input type="email" placeholder="Enter your email address" required />
+        <button type="submit" class="btn btn-primary">Subscribe</button>
+      </form>
+    </div>
+  </section>
+
+
+  <!-- =========================================================
+       ABOUT SECTION
+  ========================================================== -->
+  <section class="about section" id="about">
+    <div class="container about-content">
+      <div class="about-image">
+        <!-- PLACEHOLDER: Replace with a real brand / studio image later -->
+        <img src="https://images.unsplash.com/photo-1465479423260-c4afc24172c6?w=700&q=80" alt="Inside the SoleNest studio" />
+      </div>
+      <div class="about-text">
+        <span class="eyebrow">About SoleNest</span>
+        <h2>Built for Every Step You Take</h2>
+        <p>
+          SoleNest was founded with one simple idea: everyone deserves shoes
+          that feel as good as they look. We curate premium sneakers,
+          running shoes, and everyday footwear that combine comfort,
+          durability, and modern design.
+        </p>
+        <p>
+          From the gym to the streets, SoleNest is built for people who are
+          always on the move. We're not just selling shoes — we're helping
+          you step into your own style, with confidence.
+        </p>
+
+        <div class="about-stats">
+          <div class="stat">
+            <h3>10K+</h3>
+            <span>Happy Customers</span>
+          </div>
+          <div class="stat">
+            <h3>200+</h3>
+            <span>Shoe Styles</span>
+          </div>
+          <div class="stat">
+            <h3>15+</h3>
+            <span>Cities Served</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- =========================================================
+       CONTACT SECTION
+  ========================================================== -->
+  <section class="contact section" id="contact">
+    <div class="container">
+      <div class="section-heading">
+        <span class="eyebrow">Get In Touch</span>
+        <h2>Contact Us</h2>
+        <p>Have a question? We'd love to hear from you.</p>
+      </div>
+
+      <div class="contact-wrapper">
+        <!-- Contact form: no backend yet, so it won't actually send data.
+             We'll just prevent default submission and show a message via JS later. -->
+        <form class="contact-form" id="contactForm">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="name">Name</label>
+              <input type="text" id="name" name="name" placeholder="Your full name" required />
+            </div>
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="email" id="email" name="email" placeholder="you@example.com" required />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="subject">Subject</label>
+            <input type="text" id="subject" name="subject" placeholder="What is this about?" required />
+          </div>
+
+          <div class="form-group">
+            <label for="message">Message</label>
+            <textarea id="message" name="message" rows="5" placeholder="Write your message here..." required></textarea>
+          </div>
+
+          <button type="submit" class="btn btn-primary">Send Message</button>
+        </form>
+
+        <div class="contact-info">
+          <div class="contact-info-card">
+            <i class="fa-solid fa-location-dot"></i>
+            <div>
+              <h4>Our Store</h4>
+              <p>123 Shoe Street, Lahore, Pakistan</p>
+            </div>
+          </div>
+          <div class="contact-info-card">
+            <i class="fa-solid fa-phone"></i>
+            <div>
+              <h4>Call Us</h4>
+              <p>+92 300 1234567</p>
+            </div>
+          </div>
+          <div class="contact-info-card">
+            <i class="fa-solid fa-envelope"></i>
+            <div>
+              <h4>Email Us</h4>
+              <p>support@solenest.com</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- =========================================================
+       FOOTER
+  ========================================================== -->
+  <footer class="footer">
+    <div class="container footer-content">
+      <div class="footer-col">
+        <a href="#home" class="logo">Sole<span>Nest</span></a>
+        <p>Premium shoes for every step of your journey.</p>
+        <div class="social-icons">
+          <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+          <a href="#"><i class="fa-brands fa-instagram"></i></a>
+          <a href="#"><i class="fa-brands fa-twitter"></i></a>
+          <a href="#"><i class="fa-brands fa-tiktok"></i></a>
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="#home">Home</a></li>
+          <li><a href="#shop">Shop</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Categories</h4>
+        <ul>
+          <li><a href="#shop">Sneakers</a></li>
+          <li><a href="#shop">Running</a></li>
+          <li><a href="#shop">Casual</a></li>
+          <li><a href="#shop">Sports</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Newsletter</h4>
+        <p>Subscribe for updates on new arrivals and offers.</p>
+        <form class="footer-newsletter">
+          <input type="email" placeholder="Your email" />
+          <button type="submit"><i class="fa-solid fa-paper-plane"></i></button>
+        </form>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>&copy; 2026 SoleNest. All rights reserved. Built for internship project purposes.</p>
+    </div>
+  </footer>
+
+
+  <!-- =========================================================
+       PRODUCT DETAILS MODAL (hidden by default)
+       Opens when a user clicks "View Details" on a product card.
+  ========================================================== -->
+  <div class="modal-overlay" id="productModal">
+    <div class="modal product-modal">
+      <button class="modal-close" id="closeProductModal" aria-label="Close">&times;</button>
+
+      <div class="product-modal-content" id="productModalContent">
+        <!-- Filled dynamically by script.js with the clicked product's details:
+             image, name, price, description, sizes, quantity selector, add to cart button -->
+      </div>
+    </div>
+  </div>
+
+
+  <!-- =========================================================
+       SHOPPING CART SIDEBAR (hidden by default)
+       Slides in from the right when the cart icon is clicked.
+  ========================================================== -->
+  <div class="cart-overlay" id="cartOverlay"></div>
+  <aside class="cart-sidebar" id="cartSidebar">
+    <div class="cart-header">
+      <h3>Your Cart</h3>
+      <button class="cart-close" id="closeCart" aria-label="Close cart">&times;</button>
+    </div>
+
+    <!-- Cart items will be listed here dynamically -->
+    <div class="cart-items" id="cartItems">
+      <!-- Example structure JS will generate for each item:
+           product image, name, price, quantity controls, remove button -->
+      <p class="cart-empty-msg" id="cartEmptyMsg">Your cart is empty.</p>
+    </div>
+
+    <div class="cart-footer">
+      <div class="cart-subtotal">
+        <span>Subtotal</span>
+        <span id="cartSubtotal">$0.00</span>
+      </div>
+      <div class="cart-total">
+        <span>Total</span>
+        <span id="cartTotal">$0.00</span>
+      </div>
+      <button class="btn btn-primary checkout-btn" id="checkoutBtn">Checkout</button>
+    </div>
+  </aside>
+
+
+  <!-- =========================================================
+       LOGIN / REGISTER MODAL (hidden by default)
+       Same visual pattern as the Product Details modal above —
+       an overlay + centered box. Has two tabs: Login and Register.
+       Only one form is visible at a time; JS toggles between them.
+  ========================================================== -->
+  <div class="modal-overlay" id="authModal">
+    <div class="modal auth-modal">
+      <button class="modal-close" id="closeAuthModal" aria-label="Close">&times;</button>
+
+      <!-- Tab switcher -->
+      <div class="auth-tabs">
+        <button class="auth-tab active" data-tab="login" id="loginTabBtn">Login</button>
+        <button class="auth-tab" data-tab="register" id="registerTabBtn">Register</button>
+      </div>
+
+      <!-- LOGIN FORM -->
+      <form class="auth-form" id="loginForm">
+        <div class="form-group">
+          <label for="loginEmail">Email</label>
+          <input type="email" id="loginEmail" placeholder="you@example.com" required />
+        </div>
+        <div class="form-group">
+          <label for="loginPassword">Password</label>
+          <input type="password" id="loginPassword" placeholder="Your password" required />
+        </div>
+
+        <!-- Shows login error messages (e.g. "Invalid email or password") -->
+        <p class="auth-error" id="loginError"></p>
+
+        <button type="submit" class="btn btn-primary">Log In</button>
+      </form>
+
+      <!-- REGISTER FORM (hidden by default via CSS, JS toggles it) -->
+      <form class="auth-form hidden" id="registerForm">
+        <div class="form-group">
+          <label for="registerName">Full Name</label>
+          <input type="text" id="registerName" placeholder="Your full name" required />
+        </div>
+        <div class="form-group">
+          <label for="registerEmail">Email</label>
+          <input type="email" id="registerEmail" placeholder="you@example.com" required />
+        </div>
+        <div class="form-group">
+          <label for="registerPassword">Password</label>
+          <input type="password" id="registerPassword" placeholder="At least 6 characters" required minlength="6" />
+        </div>
+
+        <p class="auth-error" id="registerError"></p>
+
+        <button type="submit" class="btn btn-primary">Create Account</button>
+      </form>
+    </div>
+  </div>
+
+
+  <!-- =========================================================
+       CHECKOUT MODAL (hidden by default)
+       Collects shipping info, then submits the order to the backend.
+       Only opens if the user is logged in (checked in script.js).
+  ========================================================== -->
+  <div class="modal-overlay" id="checkoutModal">
+    <div class="modal auth-modal">
+      <button class="modal-close" id="closeCheckoutModal" aria-label="Close">&times;</button>
+
+      <h2 style="margin-bottom: 1rem;">Shipping Details</h2>
+
+      <form class="auth-form" id="checkoutForm">
+        <div class="form-group">
+          <label for="shipFullName">Full Name</label>
+          <input type="text" id="shipFullName" placeholder="Your full name" required />
+        </div>
+        <div class="form-group">
+          <label for="shipAddress">Address</label>
+          <input type="text" id="shipAddress" placeholder="Street address" required />
+        </div>
+        <div class="form-group">
+          <label for="shipCity">City</label>
+          <input type="text" id="shipCity" placeholder="Your city" required />
+        </div>
+        <div class="form-group">
+          <label for="shipPhone">Phone</label>
+          <input type="tel" id="shipPhone" placeholder="03XX-XXXXXXX" required />
+        </div>
+
+        <!-- Shows the order total right above the button, so the user
+             sees exactly what they're about to pay before confirming -->
+        <div class="cart-total" style="margin: 0.5rem 0;">
+          <span>Order Total</span>
+          <span id="checkoutTotal">$0.00</span>
+        </div>
+
+        <p class="auth-error" id="checkoutError"></p>
+
+        <button type="submit" class="btn btn-primary">Place Order</button>
+      </form>
+    </div>
+  </div>
+
+
+  <!-- Our own JavaScript file (we'll build this in Step 3, after style.css) -->
+  <script src="script.js"></script>
+</body>
+</html>

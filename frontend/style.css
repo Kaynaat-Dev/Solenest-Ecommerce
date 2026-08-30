@@ -1,0 +1,1428 @@
+/* ==========================================================================
+   SOLENEST — STYLESHEET
+   Organized in sections. Read the comments — they explain the "why",
+   not just the "what", so you can actually learn from this file.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. DESIGN TOKENS (CSS Variables)
+   Every color, font, and spacing value used across the site is defined once
+   here. This is called a "design system" — change a value here and it
+   updates everywhere instantly. Never hardcode colors elsewhere in this file.
+-------------------------------------------------------------------------- */
+:root {
+  /* Colors */
+  --color-dark: #15151a;         /* Charcoal - headings, navbar, dark sections */
+  --color-dark-soft: #212128;    /* Slightly lighter dark, for cards on dark bg */
+  --color-light: #f7f5f1;        /* Warm off-white - page background */
+  --color-white: #ffffff;
+  --color-accent: #ff5a2b;       /* SoleNest orange - primary brand accent */
+  --color-accent-dark: #e0491d;  /* Darker orange - hover states */
+  --color-accent-light: #fff1ea; /* Pale orange tint - badges, backgrounds */
+  --color-text: #1c1c22;         /* Main body text */
+  --color-text-muted: #6c6c76;   /* Secondary/muted text */
+  --color-border: #e7e4de;       /* Light borders/dividers */
+  --color-star: #ffb100;         /* Rating stars */
+
+  /* Typography */
+  --font-display: 'Sora', sans-serif;   /* Headings - bold, geometric, modern */
+  --font-body: 'Inter', sans-serif;     /* Body text - clean and readable */
+
+  /* Spacing scale (used for consistent padding/margins throughout) */
+  --space-xs: 0.5rem;
+  --space-sm: 1rem;
+  --space-md: 1.5rem;
+  --space-lg: 2.5rem;
+  --space-xl: 4rem;
+  --space-2xl: 6rem;
+
+  /* Shape */
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 24px;
+
+  /* Shadow */
+  --shadow-sm: 0 2px 8px rgba(21, 21, 26, 0.06);
+  --shadow-md: 0 8px 24px rgba(21, 21, 26, 0.1);
+  --shadow-lg: 0 20px 50px rgba(21, 21, 26, 0.15);
+
+  /* Transition */
+  --transition: 0.3s ease;
+}
+
+/* --------------------------------------------------------------------------
+   2. RESET & BASE STYLES
+   Removes browser default inconsistencies so every browser starts the same.
+-------------------------------------------------------------------------- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box; /* padding/border included in element's width, not added on top */
+}
+
+html {
+  scroll-behavior: smooth; /* smooth scroll when clicking nav links to #sections */
+}
+
+body {
+  font-family: var(--font-body);
+  color: var(--color-text);
+  background: var(--color-light);
+  line-height: 1.6;
+  overflow-x: hidden; /* prevents horizontal scroll from angled section edges */
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+ul {
+  list-style: none;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  color: var(--color-dark);
+  line-height: 1.2;
+}
+
+/* Visible keyboard focus outline for accessibility — don't remove this */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+/* --------------------------------------------------------------------------
+   3. LAYOUT UTILITIES
+-------------------------------------------------------------------------- */
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+.section {
+  padding: var(--space-2xl) 0;
+}
+
+.section-heading {
+  text-align: center;
+  max-width: 600px;
+  margin: 0 auto var(--space-xl);
+}
+
+.section-heading h2 {
+  font-size: clamp(1.8rem, 3vw, 2.4rem);
+  margin: 0.5rem 0;
+}
+
+.section-heading p {
+  color: var(--color-text-muted);
+}
+
+.eyebrow {
+  display: inline-block;
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  background: var(--color-accent-light);
+  padding: 0.35rem 0.9rem;
+  border-radius: 100px;
+}
+
+/* Buttons — used across hero, forms, cards, checkout */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.9rem 1.8rem;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: transform var(--transition), box-shadow var(--transition), background var(--transition);
+  white-space: nowrap;
+}
+
+.btn-primary {
+  background: var(--color-accent);
+  color: var(--color-white);
+  box-shadow: var(--shadow-sm);
+}
+
+.btn-primary:hover {
+  background: var(--color-accent-dark);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.btn-outline {
+  background: transparent;
+  color: var(--color-dark);
+  border: 1.5px solid var(--color-dark);
+}
+
+.btn-outline:hover {
+  background: var(--color-dark);
+  color: var(--color-white);
+  transform: translateY(-2px);
+}
+
+/* --------------------------------------------------------------------------
+   4. HEADER / NAVBAR
+-------------------------------------------------------------------------- */
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 500;
+  background: rgba(247, 245, 241, 0.85);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 76px;
+}
+
+.logo {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--color-dark);
+}
+
+.logo span {
+  color: var(--color-accent);
+}
+
+.nav-links {
+  display: flex;
+  gap: var(--space-lg);
+}
+
+.nav-link {
+  position: relative;
+  font-weight: 500;
+  font-size: 0.95rem;
+  padding: 0.4rem 0;
+  transition: color var(--transition);
+}
+
+.nav-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 0;
+  height: 2px;
+  background: var(--color-accent);
+  transition: width var(--transition);
+}
+
+.nav-link:hover,
+.nav-link.active {
+  color: var(--color-accent);
+}
+
+.nav-link:hover::after,
+.nav-link.active::after {
+  width: 100%;
+}
+
+.nav-icons {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.cart-btn {
+  position: relative;
+  font-size: 1.3rem;
+  color: var(--color-dark);
+  transition: color var(--transition), transform var(--transition);
+}
+
+.cart-btn:hover {
+  color: var(--color-accent);
+  transform: scale(1.08);
+}
+
+.cart-count {
+  position: absolute;
+  top: -8px;
+  right: -10px;
+  background: var(--color-accent);
+  color: var(--color-white);
+  font-size: 0.7rem;
+  font-weight: 700;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Hamburger — hidden on desktop, shown on mobile (see media queries) */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  width: 26px;
+}
+
+.hamburger span {
+  height: 2px;
+  width: 100%;
+  background: var(--color-dark);
+  border-radius: 2px;
+  transition: transform var(--transition), opacity var(--transition);
+}
+
+/* Hamburger animates into an "X" when menu is open (class toggled via JS) */
+.hamburger.open span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+.hamburger.open span:nth-child(2) {
+  opacity: 0;
+}
+.hamburger.open span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+/* --------------------------------------------------------------------------
+   5. HERO SECTION
+   Signature layout: angled diagonal cut at the bottom (clip-path) instead
+   of a plain straight edge — echoes the speed/motion feel of the brand.
+-------------------------------------------------------------------------- */
+.hero {
+  background: var(--color-dark);
+  padding: var(--space-2xl) 0 calc(var(--space-2xl) + 4rem);
+  position: relative;
+  clip-path: polygon(0 0, 100% 0, 100% 92%, 0 100%);
+  margin-bottom: -3rem; /* pulls next section up under the angled edge */
+}
+
+.hero-content {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  align-items: center;
+  gap: var(--space-xl);
+  padding-top: var(--space-lg);
+}
+
+.hero-text .eyebrow {
+  background: rgba(255, 90, 43, 0.15);
+}
+
+.hero-text h1 {
+  font-size: clamp(2.4rem, 5vw, 3.6rem);
+  color: var(--color-white);
+  margin: 1rem 0;
+}
+
+.hero-text h1 .highlight {
+  color: var(--color-accent);
+}
+
+.hero-text p {
+  color: #c9c9d1;
+  max-width: 480px;
+  margin-bottom: var(--space-lg);
+}
+
+.hero-buttons {
+  display: flex;
+  gap: var(--space-sm);
+  flex-wrap: wrap;
+}
+
+.hero .btn-outline {
+  color: var(--color-white);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+.hero .btn-outline:hover {
+  background: var(--color-white);
+  color: var(--color-dark);
+}
+
+.hero-image {
+  position: relative;
+}
+
+.hero-image::before {
+  /* Soft glow blob behind the shoe image for a premium product-shot feel */
+  content: "";
+  position: absolute;
+  inset: 10%;
+  background: radial-gradient(circle, rgba(255, 90, 43, 0.35), transparent 70%);
+  filter: blur(30px);
+  z-index: 0;
+}
+
+.hero-image img {
+  position: relative;
+  z-index: 1;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  animation: float 4s ease-in-out infinite;
+}
+
+/* Gentle floating animation to make the hero product feel alive */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-14px); }
+}
+
+/* --------------------------------------------------------------------------
+   6. PRODUCT CARDS & GRID
+   Used for both "Featured Products" and the full "Shop" grid.
+   NOTE: These cards are generated by script.js — this class styling is
+   ready and waiting for that JS-injected HTML.
+-------------------------------------------------------------------------- */
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: var(--space-lg);
+}
+
+.product-card {
+  background: var(--color-white);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--transition), box-shadow var(--transition);
+  border-bottom: 4px solid transparent; /* "outsole" accent line, animates in on hover */
+  display: flex;
+  flex-direction: column;
+}
+
+.product-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-md);
+  border-bottom-color: var(--color-accent);
+}
+
+.product-img-wrap {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  background: var(--color-light);
+}
+
+.product-img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.product-card:hover .product-img-wrap img {
+  transform: scale(1.08);
+}
+
+.product-badge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background: var(--color-accent);
+  color: var(--color-white);
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 0.3rem 0.7rem;
+  border-radius: 100px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.product-info {
+  padding: var(--space-md);
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  flex-grow: 1;
+}
+
+.product-category {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-text-muted);
+}
+
+.product-name {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+.product-rating {
+  color: var(--color-star);
+  font-size: 0.85rem;
+}
+
+.product-rating span {
+  color: var(--color-text-muted);
+  margin-left: 0.3rem;
+}
+
+.product-price {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--color-accent);
+  margin-top: 0.2rem;
+}
+
+.product-actions {
+  display: flex;
+  gap: 0.6rem;
+  margin-top: var(--space-sm);
+}
+
+.product-actions .btn {
+  flex: 1;
+  padding: 0.7rem 1rem;
+  font-size: 0.85rem;
+}
+
+.btn-view {
+  background: var(--color-light);
+  color: var(--color-dark);
+}
+
+.btn-view:hover {
+  background: var(--color-border);
+}
+
+.btn-cart {
+  background: var(--color-dark);
+  color: var(--color-white);
+}
+
+.btn-cart:hover {
+  background: var(--color-accent);
+}
+
+/* --------------------------------------------------------------------------
+   7. FILTER BAR (Shop section)
+-------------------------------------------------------------------------- */
+.filter-bar {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+  margin-bottom: var(--space-xl);
+}
+
+.filter-btn {
+  padding: 0.55rem 1.3rem;
+  border-radius: 100px;
+  border: 1.5px solid var(--color-border);
+  font-weight: 500;
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+  transition: all var(--transition);
+}
+
+.filter-btn:hover {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+.filter-btn.active {
+  background: var(--color-dark);
+  border-color: var(--color-dark);
+  color: var(--color-white);
+}
+
+/* --------------------------------------------------------------------------
+   8. CATEGORIES SECTION
+-------------------------------------------------------------------------- */
+.category-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: var(--space-md);
+}
+
+.category-card {
+  position: relative;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  aspect-ratio: 1 / 1;
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.category-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+}
+
+.category-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.category-card:hover img {
+  transform: scale(1.1);
+}
+
+.category-card span {
+  position: absolute;
+  inset: auto 0 0 0;
+  padding: 1rem;
+  background: linear-gradient(to top, rgba(21, 21, 26, 0.85), transparent);
+  color: var(--color-white);
+  font-family: var(--font-display);
+  font-weight: 700;
+  text-align: left;
+}
+
+/* --------------------------------------------------------------------------
+   9. WHY CHOOSE US SECTION
+-------------------------------------------------------------------------- */
+.why-us {
+  background: var(--color-dark);
+}
+
+.why-us .section-heading h2,
+.why-us .section-heading p {
+  color: var(--color-white);
+}
+.why-us .section-heading p {
+  color: #b6b6c0;
+}
+
+.why-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: var(--space-lg);
+}
+
+.why-card {
+  background: var(--color-dark-soft);
+  padding: var(--space-lg);
+  border-radius: var(--radius-md);
+  text-align: center;
+  transition: transform var(--transition);
+}
+
+.why-card:hover {
+  transform: translateY(-6px);
+}
+
+.why-card i {
+  font-size: 1.8rem;
+  color: var(--color-accent);
+  margin-bottom: var(--space-sm);
+}
+
+.why-card h3 {
+  color: var(--color-white);
+  font-size: 1.05rem;
+  margin-bottom: 0.4rem;
+}
+
+.why-card p {
+  color: #b6b6c0;
+  font-size: 0.9rem;
+}
+
+/* --------------------------------------------------------------------------
+   10. TESTIMONIALS SECTION
+-------------------------------------------------------------------------- */
+.testimonial-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--space-lg);
+}
+
+.testimonial-card {
+  background: var(--color-white);
+  padding: var(--space-lg);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+}
+
+.stars {
+  color: var(--color-star);
+  letter-spacing: 2px;
+  margin-bottom: 0.8rem;
+}
+
+.testimonial-card p {
+  color: var(--color-text);
+  margin-bottom: var(--space-md);
+  font-style: italic;
+}
+
+.testimonial-author {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.testimonial-author img {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.testimonial-author h4 {
+  font-size: 0.95rem;
+}
+
+.testimonial-author span {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+}
+
+/* --------------------------------------------------------------------------
+   11. NEWSLETTER SECTION
+-------------------------------------------------------------------------- */
+.newsletter {
+  background: var(--color-accent);
+}
+
+.newsletter-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-lg);
+  flex-wrap: wrap;
+}
+
+.newsletter-box h2,
+.newsletter-box p {
+  color: var(--color-white);
+}
+
+.newsletter-box p {
+  opacity: 0.9;
+}
+
+.newsletter-form {
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.newsletter-form input {
+  padding: 0.9rem 1.2rem;
+  border-radius: var(--radius-sm);
+  border: none;
+  min-width: 260px;
+  font-family: var(--font-body);
+}
+
+/* --------------------------------------------------------------------------
+   12. ABOUT SECTION
+-------------------------------------------------------------------------- */
+.about-content {
+  display: grid;
+  grid-template-columns: 1fr 1.1fr;
+  gap: var(--space-xl);
+  align-items: center;
+}
+
+.about-image img {
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+}
+
+.about-text p {
+  color: var(--color-text-muted);
+  margin: 1rem 0;
+}
+
+.about-stats {
+  display: flex;
+  gap: var(--space-lg);
+  margin-top: var(--space-md);
+}
+
+.stat h3 {
+  font-size: 1.8rem;
+  color: var(--color-accent);
+}
+
+.stat span {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+}
+
+/* --------------------------------------------------------------------------
+   13. CONTACT SECTION
+-------------------------------------------------------------------------- */
+.contact-wrapper {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: var(--space-xl);
+}
+
+.contact-form {
+  background: var(--color-white);
+  padding: var(--space-lg);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-md);
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.form-group label {
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.form-group input,
+.form-group textarea {
+  padding: 0.8rem 1rem;
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-body);
+  resize: vertical;
+  transition: border-color var(--transition);
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  border-color: var(--color-accent);
+  outline: none;
+}
+
+.contact-info {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.contact-info-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  background: var(--color-white);
+  padding: var(--space-md);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+}
+
+.contact-info-card i {
+  color: var(--color-accent);
+  font-size: 1.2rem;
+  margin-top: 0.2rem;
+}
+
+.contact-info-card h4 {
+  font-size: 0.95rem;
+  margin-bottom: 0.2rem;
+}
+
+.contact-info-card p {
+  font-size: 0.88rem;
+  color: var(--color-text-muted);
+}
+
+/* --------------------------------------------------------------------------
+   14. FOOTER
+-------------------------------------------------------------------------- */
+.footer {
+  background: var(--color-dark);
+  color: #b6b6c0;
+  padding-top: var(--space-xl);
+}
+
+.footer-content {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr 1.4fr;
+  gap: var(--space-lg);
+  padding-bottom: var(--space-xl);
+}
+
+.footer-col h4 {
+  color: var(--color-white);
+  font-size: 1rem;
+  margin-bottom: var(--space-sm);
+}
+
+.footer-col p {
+  font-size: 0.9rem;
+  margin: 0.8rem 0;
+}
+
+.footer-col ul li {
+  margin-bottom: 0.6rem;
+}
+
+.footer-col ul li a {
+  font-size: 0.9rem;
+  transition: color var(--transition);
+}
+
+.footer-col ul li a:hover {
+  color: var(--color-accent);
+}
+
+.social-icons {
+  display: flex;
+  gap: 0.7rem;
+  margin-top: var(--space-sm);
+}
+
+.social-icons a {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-dark-soft);
+  border-radius: 50%;
+  transition: background var(--transition), color var(--transition);
+}
+
+.social-icons a:hover {
+  background: var(--color-accent);
+  color: var(--color-white);
+}
+
+.footer-newsletter {
+  display: flex;
+  margin-top: var(--space-sm);
+}
+
+.footer-newsletter input {
+  flex: 1;
+  padding: 0.7rem 1rem;
+  border: none;
+  border-radius: var(--radius-sm) 0 0 var(--radius-sm);
+  font-family: var(--font-body);
+}
+
+.footer-newsletter button {
+  background: var(--color-accent);
+  color: var(--color-white);
+  padding: 0 1.1rem;
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  transition: background var(--transition);
+}
+
+.footer-newsletter button:hover {
+  background: var(--color-accent-dark);
+}
+
+.footer-bottom {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  text-align: center;
+  padding: var(--space-md) 0;
+  font-size: 0.85rem;
+}
+
+/* --------------------------------------------------------------------------
+   15. PRODUCT DETAILS MODAL
+-------------------------------------------------------------------------- */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(21, 21, 26, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity var(--transition);
+  padding: 1.5rem;
+}
+
+.modal-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.modal {
+  background: var(--color-white);
+  border-radius: var(--radius-lg);
+  max-width: 800px;
+  width: 100%;
+  max-height: 88vh;
+  overflow-y: auto;
+  position: relative;
+  transform: translateY(20px);
+  transition: transform var(--transition);
+}
+
+.modal-overlay.active .modal {
+  transform: translateY(0);
+}
+
+.modal-close {
+  position: absolute;
+  top: 1rem;
+  right: 1.2rem;
+  font-size: 1.6rem;
+  color: var(--color-text-muted);
+  z-index: 2;
+  line-height: 1;
+  transition: color var(--transition);
+}
+
+.modal-close:hover {
+  color: var(--color-accent);
+}
+
+/* Layout for the content injected by script.js into the product modal */
+.product-modal-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.product-modal-image {
+  background: var(--color-light);
+  border-radius: var(--radius-lg) 0 0 var(--radius-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-lg);
+}
+
+.product-modal-details {
+  padding: var(--space-lg);
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.product-modal-details .product-price {
+  font-size: 1.5rem;
+}
+
+.size-options {
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+  margin: 0.4rem 0;
+}
+
+.size-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-sm);
+  border: 1.5px solid var(--color-border);
+  font-weight: 600;
+  transition: all var(--transition);
+}
+
+.size-btn:hover {
+  border-color: var(--color-accent);
+}
+
+.size-btn.selected {
+  background: var(--color-dark);
+  border-color: var(--color-dark);
+  color: var(--color-white);
+}
+
+.qty-selector {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  width: fit-content;
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+
+.qty-selector button {
+  width: 40px;
+  height: 40px;
+  font-size: 1.1rem;
+  background: var(--color-light);
+  transition: background var(--transition);
+}
+
+.qty-selector button:hover {
+  background: var(--color-border);
+}
+
+.qty-selector span {
+  width: 44px;
+  text-align: center;
+  font-weight: 600;
+}
+
+/* --------------------------------------------------------------------------
+   16. CART SIDEBAR
+-------------------------------------------------------------------------- */
+.cart-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(21, 21, 26, 0.5);
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity var(--transition);
+}
+
+.cart-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.cart-sidebar {
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: 400px;
+  max-width: 90vw;
+  background: var(--color-white);
+  z-index: 1001;
+  display: flex;
+  flex-direction: column;
+  transform: translateX(100%);
+  transition: transform var(--transition);
+  box-shadow: var(--shadow-lg);
+}
+
+.cart-sidebar.active {
+  transform: translateX(0);
+}
+
+.cart-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-md);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.cart-close {
+  font-size: 1.5rem;
+  color: var(--color-text-muted);
+}
+
+.cart-items {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--space-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.cart-empty-msg {
+  text-align: center;
+  color: var(--color-text-muted);
+  margin-top: var(--space-xl);
+}
+
+/* Structure for each cart item — generated dynamically by script.js */
+.cart-item {
+  display: grid;
+  grid-template-columns: 70px 1fr auto;
+  gap: 0.8rem;
+  align-items: center;
+  padding-bottom: var(--space-md);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.cart-item img {
+  width: 70px;
+  height: 70px;
+  object-fit: cover;
+  border-radius: var(--radius-sm);
+}
+
+.cart-item-name {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.cart-item-price {
+  color: var(--color-accent);
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.cart-item-qty {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.4rem;
+}
+
+.cart-item-qty button {
+  width: 26px;
+  height: 26px;
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+
+.cart-item-remove {
+  color: var(--color-text-muted);
+  font-size: 1rem;
+  transition: color var(--transition);
+}
+
+.cart-item-remove:hover {
+  color: var(--color-accent);
+}
+
+.cart-footer {
+  padding: var(--space-md);
+  border-top: 1px solid var(--color-border);
+}
+
+.cart-subtotal,
+.cart-total {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.6rem;
+  font-size: 0.95rem;
+}
+
+.cart-total {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.checkout-btn {
+  width: 100%;
+  margin-top: var(--space-sm);
+}
+
+/* --------------------------------------------------------------------------
+   16b. LOGIN BUTTON (navbar)
+   Styled to match .cart-btn so the two icons feel like a matched pair.
+-------------------------------------------------------------------------- */
+.login-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--color-dark);
+  transition: color var(--transition), transform var(--transition);
+}
+
+.login-btn i {
+  font-size: 1.1rem;
+}
+
+.login-btn:hover {
+  color: var(--color-accent);
+  transform: scale(1.04);
+}
+
+/* On very small screens, hide the "Login" text and just show the icon,
+   so the navbar doesn't get too crowded next to the cart + hamburger. */
+@media (max-width: 480px) {
+  .login-btn span {
+    display: none;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   16c. LOGIN / REGISTER MODAL
+   Reuses .modal-overlay and .modal from the Product Details modal (same
+   dimming overlay, same centered box, same open/close animation) — we
+   only need to style what's unique to this modal: the tabs and forms.
+-------------------------------------------------------------------------- */
+.auth-modal {
+  max-width: 420px;
+  padding: var(--space-xl) var(--space-lg) var(--space-lg);
+}
+
+.auth-tabs {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: var(--space-lg);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.auth-tab {
+  flex: 1;
+  padding: 0.8rem;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--color-text-muted);
+  border-bottom: 2px solid transparent;
+  transition: color var(--transition), border-color var(--transition);
+}
+
+.auth-tab:hover {
+  color: var(--color-dark);
+}
+
+.auth-tab.active {
+  color: var(--color-accent);
+  border-bottom-color: var(--color-accent);
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+/* Used by JS to hide whichever form (login/register) isn't active */
+.auth-form.hidden {
+  display: none;
+}
+
+.auth-form .btn {
+  margin-top: 0.3rem;
+}
+
+.auth-error {
+  color: #d33;
+  font-size: 0.85rem;
+  min-height: 1em; /* reserves space so the layout doesn't jump when an error appears */
+  display: none; /* JS removes this via a class when there's an actual message to show */
+}
+
+.auth-error.visible {
+  display: block;
+}
+
+/* --------------------------------------------------------------------------
+   17. RESPONSIVE DESIGN
+   Mobile-first adjustments. We use max-width breakpoints since the base
+   styles above were built desktop-first for this layout.
+-------------------------------------------------------------------------- */
+
+/* Tablets */
+@media (max-width: 900px) {
+  .hero-content,
+  .about-content,
+  .contact-wrapper {
+    grid-template-columns: 1fr;
+  }
+
+  .about-image {
+    order: -1;
+  }
+
+  .footer-content {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* Mobile */
+@media (max-width: 700px) {
+  .nav-links {
+    position: fixed;
+    top: 76px;
+    left: 0;
+    width: 100%;
+    background: var(--color-light);
+    flex-direction: column;
+    align-items: center;
+    padding: var(--space-lg) 0;
+    gap: var(--space-md);
+    border-bottom: 1px solid var(--color-border);
+    transform: translateY(-150%);
+    opacity: 0;
+    transition: transform var(--transition), opacity var(--transition);
+  }
+
+  .nav-links.open {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  .hamburger {
+    display: flex;
+  }
+
+  .hero {
+    clip-path: polygon(0 0, 100% 0, 100% 96%, 0 100%);
+  }
+
+  .newsletter-box {
+    text-align: center;
+    justify-content: center;
+  }
+
+  .newsletter-form {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .newsletter-form input {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .product-modal-content {
+    grid-template-columns: 1fr;
+  }
+
+  .product-modal-image {
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  }
+
+  .footer-content {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .social-icons,
+  .footer-newsletter {
+    justify-content: center;
+  }
+
+  .about-stats {
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+}

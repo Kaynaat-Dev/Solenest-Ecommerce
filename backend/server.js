@@ -46,7 +46,7 @@ app.use("/api/products", productRoutes);
 //     Handles registration and (soon) login. Everything here gets
 //     prefixed with "/api/auth" — so router.post("/register") in that
 //     file becomes POST /api/auth/register.
-const authRoutes = require("./routes/authRoutes");
+const authRoutes = require("./routes/authroutes");
 app.use("/api/auth", authRoutes);
 
 // 4d. ORDER ROUTES

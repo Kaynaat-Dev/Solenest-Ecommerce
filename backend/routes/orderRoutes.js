@@ -7,8 +7,8 @@
 
 const express = require("express");
 const router = express.Router();
-const Order = require("../models/Order");
-const protect = require("../middleware/authMiddleware");
+const Order = require("../models/order");
+const protect = require("../middleware/authmiddleware");
 
 /* --------------------------------------------------------------------------
    POST /api/orders   (protected)

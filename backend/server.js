@@ -56,23 +56,30 @@ const orderRoutes = require("./routes/orderRoutes");
 app.use("/api/orders", orderRoutes);
 
 // 5. CONNECT TO MONGODB
-//    mongoose.connect() returns a Promise. We only want to start the
-//    server (app.listen) AFTER the database connection succeeds — this
-//    avoids the server accepting requests before it can actually reach
-//    the database.
+//    mongoose.connect() returns a Promise. We connect once here, and both
+//    local development and Vercel's serverless functions can reuse this
+//    same connection.
 const PORT = process.env.PORT || 5000;
 
 mongoose
   .connect(process.env.MONGO_URI)
-  .then(() => {
-    console.log("MongoDB connected successfully.");
+  .then(() => console.log("MongoDB connected successfully."))
+  .catch((err) => console.error("MongoDB connection failed:", err.message));
 
-    app.listen(PORT, () => {
-      console.log(`SoleNest server running on http://localhost:${PORT}`);
-    });
-  })
-  .catch((err) => {
-    console.error("MongoDB connection failed:", err.message);
-    // We don't start the server if the DB connection fails —
-    // better to fail loudly now than serve broken requests later.
+// 6. START THE SERVER — but only when running locally.
+//    `require.main === module` is true ONLY when this file is run
+//    directly (e.g. `node server.js` or `npm run dev`). When a platform
+//    like Vercel instead *imports* this file to handle requests, that
+//    condition is false — so app.listen() is skipped, and Vercel takes
+//    care of starting/stopping the app per-request on its own.
+if (require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`SoleNest server running on http://localhost:${PORT}`);
   });
+}
+
+// 7. EXPORT THE APP
+//    Needed so Vercel (or any other platform/testing tool) can import
+//    this Express app and run it themselves, instead of us calling
+//    app.listen() ourselves.
+module.exports = app;

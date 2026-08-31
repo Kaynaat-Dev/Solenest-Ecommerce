@@ -7,7 +7,6 @@
 
 // 1. Load environment variables from .env into process.env
 //    This MUST be at the very top, before we use process.env anywhere.
-// redeploy trigger
 require("dotenv").config();
 
 const express = require("express");
@@ -56,16 +55,33 @@ app.use("/api/auth", authRoutes);
 const orderRoutes = require("./routes/orderRoutes");
 app.use("/api/orders", orderRoutes);
 
-// 5. CONNECT TO MONGODB
-//    mongoose.connect() returns a Promise. We connect once here, and both
-//    local development and Vercel's serverless functions can reuse this
-//    same connection.
-const PORT = process.env.PORT || 5000;
+// 5. CONNECT TO MONGODB (serverless-safe version)
+//    On a normal always-on server, we'd connect once and be done. But on
+//    Vercel, each request might hit a "cold" function instance that
+//    hasn't connected yet. This helper checks the CURRENT connection
+//    state every time, and only opens a new connection if one isn't
+//    already active — this pattern is the standard fix for
+//    "Mongoose + serverless" timeout issues.
+async function connectDB() {
+  // readyState: 0 = disconnected, 1 = connected, 2 = connecting, 3 = disconnecting
+  if (mongoose.connection.readyState === 1) {
+    return; // already connected — nothing to do
+  }
+  await mongoose.connect(process.env.MONGO_URI);
+  console.log("MongoDB connected successfully.");
+}
 
-mongoose
-  .connect(process.env.MONGO_URI)
-  .then(() => console.log("MongoDB connected successfully."))
-  .catch((err) => console.error("MongoDB connection failed:", err.message));
+// This middleware runs before EVERY request, and waits for the database
+// connection to be ready before letting the request continue to its route.
+app.use(async (req, res, next) => {
+  try {
+    await connectDB();
+    next();
+  } catch (error) {
+    console.error("MongoDB connection failed:", error.message);
+    res.status(500).json({ message: "Database connection failed" });
+  }
+});
 
 // 6. START THE SERVER — but only when running locally.
 //    `require.main === module` is true ONLY when this file is run
@@ -74,8 +90,11 @@ mongoose
 //    condition is false — so app.listen() is skipped, and Vercel takes
 //    care of starting/stopping the app per-request on its own.
 if (require.main === module) {
-  app.listen(PORT, () => {
-    console.log(`SoleNest server running on http://localhost:${PORT}`);
+  const PORT = process.env.PORT || 5000;
+  connectDB().then(() => {
+    app.listen(PORT, () => {
+      console.log(`SoleNest server running on http://localhost:${PORT}`);
+    });
   });
 }
 

@@ -67,7 +67,13 @@ async function connectDB() {
   if (mongoose.connection.readyState === 1) {
     return; // already connected — nothing to do
   }
-  await mongoose.connect(process.env.MONGO_URI);
+  // serverSelectionTimeoutMS is increased from Mongoose's default (10s) to
+  // give more time for the connection to establish across a longer
+  // network distance (our Vercel function and MongoDB Atlas cluster are
+  // in different regions, so the default timeout was too tight).
+  await mongoose.connect(process.env.MONGO_URI, {
+    serverSelectionTimeoutMS: 20000,
+  });
   console.log("MongoDB connected successfully.");
 }
 

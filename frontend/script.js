@@ -6,11 +6,11 @@
 
 /* --------------------------------------------------------------------------
    1. PRODUCT DATA
-   Now fetched from our Express + MongoDB backend instead of hardcoded.
-   The backend runs locally at this address during development. When we
-   deploy the site later, this is the ONE line we'll need to change.
+   Fetched from our Express + MongoDB backend, now LIVE on Vercel — no
+   longer just localhost. This means the site will now work for anyone,
+   anywhere, not just on your own laptop.
 -------------------------------------------------------------------------- */
-const API_BASE_URL = "http://localhost:5000/api";
+const API_BASE_URL = "https://solenest-ecommerce.vercel.app/api";
 
 // Starts empty. Gets filled once fetchProducts() successfully loads data
 // from MongoDB. We use `let` (not `const`) because we reassign it below.
